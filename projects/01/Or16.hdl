@@ -2,7 +2,8 @@
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 // File name: projects/01/Or16.hdl
-
+
+
 
 /**
  * 16-bit bitwise Or gate: for i=0..15 out[i] = a[i] or b[i].
@@ -13,5 +14,8 @@ CHIP Or16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Not16(in[0..15] = a[0..15], out = notA);
+    Not16(in[0..15] = b[0..15], out = notB);
+    And16(a[0..15] = notA, b[0..15] = notB, out = andAB);
+    Not16(in[0..15] = andAB, out = out[0..15]);
 }
