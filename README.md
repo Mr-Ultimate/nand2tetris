@@ -1,6 +1,5 @@
-#I'm building a computer from first principles!
-
-This is the course: [http://www.nand2tetris.org/](http://www.nand2tetris.org/)
+#Nand2Tetris Project Work
+Building a computer from first principles! [http://www.nand2tetris.org/](http://www.nand2tetris.org/)
 
 ##Project Notes
 
