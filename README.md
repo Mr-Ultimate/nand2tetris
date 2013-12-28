@@ -34,3 +34,10 @@ There was a little difficulty in figuring out how to set the output flags of the
 Above you'll see that the output of that chip goes to the main output, one of the pins splits off to `ng`, and then each half of the bus also splits off to the sub-buses `half1` and `half2`.
 
 ###Project 3
+It appears there might be an error in the source code, the original `RAM16K.hdl` file has this specification for the address:
+
+    IN in[16], load, address[14]
+
+However, 14 bits was not sufficient to address all the memory locations. You need 3 to address the included RAM4K units, and then 12 for the address needs of those units. The only change needed was to change the 14 to 15. (And then all the tests pass.)
+
+    IN in[16], load, address[15]
