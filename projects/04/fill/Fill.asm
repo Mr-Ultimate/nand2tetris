@@ -15,12 +15,6 @@
 @color
 M=0                 // Initialize color to zero
 
-@SCREEN
-D=A                 // Set D to address of first screen word
-
-@sw
-M=D                 // Initialize screen address of first word
-
 (LOOP)
 
     @KBD
@@ -42,36 +36,34 @@ M=D                 // Initialize screen address of first word
 
 (END_IF)
 
+    @SCREEN
+    D=A             // Set D to first screen word address
+
+    @sw
+    M=D             // Set sw to the first screen word address
+
+(SCREEN_LOOP)
+
     @sw
     D=M             // Set D to the current screen word address
 
     @24576
     D=D-A           // Subtract max screen address
 
-    @RESET_SW
-    D;JEQ           // Goto RESET_SW if sw has reached the max
+    @LOOP
+    D;JEQ           // Exit screen loop if sw has reached the max
 
     @color
     D=M             // Set D to the color value
 
     @sw
-    A=M
+    A=M             // Set the A register to the address from sw
     M=D             // Set the current screen word to the color value
 
     @sw
     M=M+1           // Increment the screen word
 
-    @LOOP
-    0;JMP           // Restart the loop
+    @SCREEN_LOOP
+    0;JMP           // Repeat screen loop
 
-(RESET_SW)
-
-    @SCREEN
-    D=A             // Set D to first screen word address
-
-    @sw
-    M=D             // Reset the screen word address
-
-    @LOOP
-    0;JMP           // Restart the loop
 
