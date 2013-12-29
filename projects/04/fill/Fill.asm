@@ -15,6 +15,9 @@
 @color
 M=0                 // Initialize color to zero
 
+@last
+M=0                 // Initialize a prior color to zero
+
 (LOOP)
 
     @KBD
@@ -35,6 +38,21 @@ M=0                 // Initialize color to zero
     M=0             // Set the color to white
 
 (END_IF)
+
+    @color
+    D=M             // Load D with the color
+
+    @last
+    D=D-M           // Color - last color (0--1=1) (-1--1=0) (-1-0=-1) (0-0=0)
+
+    @LOOP
+    D;JEQ           // Loop if color hasn't changed
+
+    @color
+    D=M
+
+    @last
+    M=D             // Set last to the current color
 
     @SCREEN
     D=A             // Set D to first screen word address
