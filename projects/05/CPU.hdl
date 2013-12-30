@@ -59,16 +59,20 @@ CHIP CPU {
         no = no
     );
 
-
-    JumpDirector(j = j, equalsZero = zrOut, lessThanZero = ngOut, pcLoad = pcLoad, pcInc = pcInc);
-
+    //Jumper logic
+    JumpDirector(
+        j = j,
+        equalsZero = zrOut,
+        lessThanZero = ngOut,
+        writePC = writePC, inc = inc
+    );
 
     //A register sub system
     Mux16(a = aluOut, b = decoderAddressOut, out = aMuxOut, sel = aMuxSel);
     ARegister(in = aMuxOut, out = aRegisterOut, out[0..14] = addressM, load = writeA);
 
     //PC sub system
-    PC(in = aRegisterOut, load = pcLoad, inc = pcInc, reset = reset, out[0..14] = pc);
+    PC(in = aRegisterOut, load = writePC, inc = inc, reset = reset, out[0..14] = pc);
 
     //ALU sub system
     Mux16(a = aRegisterOut, b = inM, out = aluMuxOut, sel = aluMuxSel);
@@ -87,6 +91,5 @@ CHIP CPU {
         ng = ngOut
     );
     DRegister(in = aluOut, out = dRegisterOut, load = writeD);
-
 }
 

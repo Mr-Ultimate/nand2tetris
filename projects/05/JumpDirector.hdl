@@ -15,8 +15,8 @@ CHIP JumpDirector {
     IN  j[3],   //instruction j bits
         equalsZero,     //ALU is zero bit
         lessThanZero;     //ALU is negative bit
-    OUT pcLoad, //PC load bit
-        pcInc;  //PC increment bit
+    OUT writePC, //PC load bit
+        inc;  //PC increment bit
 
     PARTS:
 
@@ -31,9 +31,9 @@ CHIP JumpDirector {
 
     // Jump if any of the conditions are true
     Or(a = jump2, b = jump1, out = jump3);
-    Or(a = jump3, b = jump0, out = pcLoad, out = isJumping);
+    Or(a = jump3, b = jump0, out = writePC, out = isJumping);
 
     // If we arn't jumping we should be incrementing
-    Not(in = isJumping, out = pcInc);
+    Not(in = isJumping, out = inc);
 
 }
