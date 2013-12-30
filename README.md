@@ -52,4 +52,6 @@ The final iteration of my program used a little bit more memory but improved the
 This iteration is most pleasing as we only update the screen memory when the keyboard actually changes, rather than during every iteration of the loop.
 
 ###Project 5
-Implementing the memory module was relatively straight forward, but the CPU was much more daunting. I found it helpful to abstract the control responsibilities to its own chip "Decoder."
+Implementing the memory module was relatively straight forward, but the CPU was much more daunting. I found it helpful to abstract the control responsibilities into two additional chips: "Decoder," and "JumpDirector."
+
+The final implementation of the "computer" chip was very satisfying, they pretty much just plugged together.
