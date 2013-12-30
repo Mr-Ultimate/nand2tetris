@@ -34,13 +34,7 @@ There was a little difficulty in figuring out how to set the output flags of the
 Above you'll see that the output of that chip goes to the main output, one of the pins splits off to `ng`, and then each half of the bus also splits off to the sub-buses `half1` and `half2`.
 
 ###Project 3
-It appears there might be an error in the source code, the original `RAM16K.hdl` file has this specification for the address:
-
-    IN in[16], load, address[14]
-
-However, 14 bits was not sufficient to address all the memory locations. You need 3 to address the included RAM4K units, and then 12 for the address needs of those units. The only change needed was to change the 14 to 15. (And then all the tests pass.)
-
-    IN in[16], load, address[15]
+I realized that I needed to be careful implementing the larger and larger memory modules, typically you make the next module with 8 of the previous one, although for the 16K you obviously only need 4 of the constituent 4K. At first I blindly used 8!
 
 ###Project 4
 Writing the "Fill" program was interesting as it presented 3 possible options to create the program. The instructions note:
@@ -56,3 +50,8 @@ The alternative implementation uses a sub loop that iterates through the screen,
 The final iteration of my program used a little bit more memory but improved the execution speed. In this version loop determine the color and checks if it is different from the color from the previous iteration of the loop. If there is no difference, we just restart the loop, if a difference has been found, it's clear that a key has been pressed and thus the "blackening" sub loop is executed.
 
 This iteration is most pleasing as we only update the screen memory when the keyboard actually changes, rather than during every iteration of the loop.
+
+###Project 5
+Implementing the memory module was relatively straight forward, but the CPU was much more daunting. I found it helpful to abstract the control responsibilities into two additional chips: "Decoder," and "JumpDirector."
+
+The final implementation of the "computer" chip was very satisfying, they pretty much just plugged together.

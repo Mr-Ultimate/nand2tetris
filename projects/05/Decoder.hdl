@@ -1,0 +1,44 @@
+/**
+ * Instruction decoder.
+ */
+
+CHIP Decoder {
+    IN  instruction[16];
+    OUT address[16],        // Address if instruction is an address
+        aMuxSel,            // Selector bit for Mux pre A register
+        aluMuxSel,          // Selector bit for Mux pre ALU
+        j[3],                  // Jump bus
+        writeM,             // Write to Memory bit
+        writeD,             // Write to D Register bit
+        writeA,             // Write to A Register bit
+        zx,
+        nx,
+        zy,
+        ny,
+        f,
+        no;
+
+    PARTS:
+    Not(in = instruction[15], out = isAddress, out = aMuxSel);
+
+    Mux16(a = false, b = instruction, sel = isAddress, out = address);
+
+    Or(a = isAddress, b = instruction[5], out = writeA);
+
+    Mux16(
+        a = instruction,
+        b = false,
+        sel = isAddress,
+        out[12] = aluMuxSel,
+        out[0..2] = j,
+        out[3] = writeM,
+        out[4] = writeD,
+        out[11] = zx,
+        out[10] = nx,
+        out[9] = zy,
+        out[8] = ny,
+        out[7] = f,
+        out[6] = no
+    );
+
+}
