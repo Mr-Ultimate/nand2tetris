@@ -50,3 +50,6 @@ The alternative implementation uses a sub loop that iterates through the screen,
 The final iteration of my program used a little bit more memory but improved the execution speed. In this version loop determine the color and checks if it is different from the color from the previous iteration of the loop. If there is no difference, we just restart the loop, if a difference has been found, it's clear that a key has been pressed and thus the "blackening" sub loop is executed.
 
 This iteration is most pleasing as we only update the screen memory when the keyboard actually changes, rather than during every iteration of the loop.
+
+###Project 5
+Implementing the memory module was relatively straight forward, but the CPU was much more daunting. I found it helpful to abstract the control responsibilities to its own chip "Decoder."

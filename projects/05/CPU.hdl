@@ -44,17 +44,18 @@ CHIP CPU {
     Not(in = instruction[15], out = isAddress);
     Decoder(
         instruction = instruction,
+        address = decoderAddressOut,
         a = aluMuxSel,
         j = j,
         d[0] = writeM,
         d[1] = writeD,
         d[2] = writeA,
-        c[0] = zx,
-        c[1] = nx,
-        c[2] = zy,
-        c[3] = ny,
-        c[4] = f,
-        c[5] = no
+        c[5] = zx,
+        c[4] = nx,
+        c[3] = zy,
+        c[2] = ny,
+        c[1] = f,
+        c[0] = no
     );
 
     //Loads A Register if its an address or included in destination
@@ -64,7 +65,7 @@ CHIP CPU {
 
 
     //A register sub system
-    Mux16(a = aluOut, b = instruction, out = aMuxOut, sel = isAddress);
+    Mux16(a = aluOut, b = decoderAddressOut, out = aMuxOut, sel = isAddress);
     ARegister(in = aMuxOut, out = aRegisterOut, out[0..14] = addressM, load = aRegisterLoad);
 
     //PC sub system

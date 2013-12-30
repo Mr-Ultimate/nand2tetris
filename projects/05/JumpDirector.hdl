@@ -19,7 +19,11 @@ CHIP JumpDirector {
         pcInc;  //PC increment bit
 
     PARTS:
-    Nand(a = equalsZero, b = lessThanZero, out = greaterThanZero);
+
+    Not(in = equalsZero, out = notEqualsZero);
+    Not(in = lessThanZero, out = notLessThanZero);
+
+    And(a = notEqualsZero, b = notLessThanZero, out = greaterThanZero);
 
     And(a = j[2], b = lessThanZero, out = jump2);
     And(a = j[1], b = equalsZero, out = jump1);

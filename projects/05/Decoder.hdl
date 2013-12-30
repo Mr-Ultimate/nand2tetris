@@ -4,12 +4,13 @@
 
 CHIP Decoder {
     IN  instruction[16];
-    OUT a,
+    OUT address[16],
+        a,
         c[6],
         d[3],
         j[3];
 
     PARTS:
-    Not16(in = instruction, out = notInst);
-    Not16(in = notInst, out[12] = a, out[6..11] = c, out[3..5] = d, out[0..2] = j);
+    Mux16(a = instruction, b = false, sel = instruction[15], out = address);
+    Mux16(a = false, b = instruction, sel = instruction[15], out[12] = a, out[6..11] = c, out[3..5] = d, out[0..2] = j);
 }
