@@ -1,0 +1,35 @@
+/**
+ * Jump direction logic.
+ *
+ * The only remaining question is when to enable the PC to accept this value
+ * (rather than continuing its steadfast counting), namely, when does a jump
+ * need to occur. This is a function of two signals: (a) the j-bits of the
+ * current instruction, specifying on which condition we are supposed to jump,
+ * and (b) the ALU output status bits, indicating whether the condition is
+ * satisfied. If we have a jump, the PC should be loaded with A’s output.
+ * Otherwise, the PC should increment by 1.
+ */
+
+
+CHIP JumpDirector {
+    IN  j[3],   //instruction j bits
+        equalsZero,     //ALU is zero bit
+        lessThanZero;     //ALU is negative bit
+    OUT pcLoad, //PC load bit
+        pcInc;  //PC increment bit
+
+    PARTS:
+    Nand(a = equalsZero, b = lessThanZero, out = greaterThanZero);
+
+    And(a = j[2], b = lessThanZero, out = jump2);
+    And(a = j[1], b = equalsZero, out = jump1);
+    And(a = j[0], b = greaterThanZero, out = jump0);
+
+    // Jump if any of the conditions are true
+    Or(a = jump2, b = jump1, out = jump3);
+    Or(a = jump3, b = jump0, out = pcLoad, out = isJumping);
+
+    // If we arn't jumping we should be incrementing
+    Not(in = isJumping, out = pcInc);
+
+}
