@@ -45,28 +45,27 @@ CHIP CPU {
     Decoder(
         instruction = instruction,
         address = decoderAddressOut,
-        a = aluMuxSel,
+        aMuxSel = aMuxSel,
+        aluMuxSel = aluMuxSel,
         j = j,
-        d[0] = writeM,
-        d[1] = writeD,
-        d[2] = writeA,
-        c[5] = zx,
-        c[4] = nx,
-        c[3] = zy,
-        c[2] = ny,
-        c[1] = f,
-        c[0] = no
+        writeM = writeM,
+        writeD = writeD,
+        writeA = writeA,
+        zx = zx,
+        nx = nx,
+        zy = zy,
+        ny = ny,
+        f = f,
+        no = no
     );
 
-    //Loads A Register if its an address or included in destination
-    Or(a = writeA, b = isAddress, out = aRegisterLoad);
 
     JumpDirector(j = j, equalsZero = zrOut, lessThanZero = ngOut, pcLoad = pcLoad, pcInc = pcInc);
 
 
     //A register sub system
-    Mux16(a = aluOut, b = decoderAddressOut, out = aMuxOut, sel = isAddress);
-    ARegister(in = aMuxOut, out = aRegisterOut, out[0..14] = addressM, load = aRegisterLoad);
+    Mux16(a = aluOut, b = decoderAddressOut, out = aMuxOut, sel = aMuxSel);
+    ARegister(in = aMuxOut, out = aRegisterOut, out[0..14] = addressM, load = writeA);
 
     //PC sub system
     PC(in = aRegisterOut, load = pcLoad, inc = pcInc, reset = reset, out[0..14] = pc);
