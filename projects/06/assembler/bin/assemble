@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'assembler/application'
+
+Assembler::Application.new(ARGV.dup).execute!
