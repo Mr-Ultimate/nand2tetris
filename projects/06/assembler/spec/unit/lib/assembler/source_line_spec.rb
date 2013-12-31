@@ -4,6 +4,11 @@ require 'spec_helper'
 require 'assembler/source_line'
 
 describe Assembler::SourceLine do
+  it 'should report if the line is blank' do
+    source = '     //comment'
+    Assembler::SourceLine.new(source).blank?.should be_true
+  end
+
   it 'should be initialized with a string' do
     source = '   @123  //comment'
     Assembler::SourceLine.new(source).raw.should eq source
@@ -34,7 +39,8 @@ describe Assembler::SourceLine do
   it 'should return a jump code' do
     line = Assembler::SourceLine.new('D;JEQ')
     line.jump.should eq 'JEQ'
-    line.computation.should be_nil
+    line.computation.should eq 'D'
+    line.destination.should be_nil
   end
 
   it 'should parse a complex code' do

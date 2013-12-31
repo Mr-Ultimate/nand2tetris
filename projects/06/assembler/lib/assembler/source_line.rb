@@ -8,16 +8,20 @@ module Assembler
       @source = source.strip.gsub(/\s/, '').sub(%r(//.+), '')
     end
 
+    def blank?
+      @source == ''
+    end
+
     def symbol
       @source[1..@source.size - 1].to_i if @source[0] == '@'
     end
 
     def destination
-      return_nil_if_empty @source.match(/^(.+?)[=;]/)
+      return_nil_if_empty @source.match(/^(.+?)=/)
     end
 
     def computation
-      return_nil_if_empty @source.match(/=(.+?)(?:;|$)/)
+      return_nil_if_empty @source.match(/^(?:.+=)?(.+?)(?:$|;)/)
     end
 
     def jump

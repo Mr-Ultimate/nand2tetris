@@ -24,4 +24,10 @@ describe Assembler::SourceLineEncoder do
     encoder.encode.should eq '1110000010010000'
   end
 
+  it 'should encode a jump C instruction correctly' do
+    source_line = Assembler::SourceLine.new('D;JGT')
+    encoder = Assembler::SourceLineEncoder.new(source_line)
+    encoder.encode.should eq '1110001100000001'
+  end
+
 end
