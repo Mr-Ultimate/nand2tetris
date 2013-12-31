@@ -13,15 +13,21 @@ module Assembler
     end
 
     def destination
-      @source.split('=').first
+      return_nil_if_empty @source.match(/^(.+?)[=;]/)
     end
 
     def computation
-      @source.split('=').last.split(';').first
+      return_nil_if_empty @source.match(/=(.+?)(?:;|$)/)
     end
 
     def jump
-      @source.split(';').last
+      return_nil_if_empty @source.match(/;(.+)$/)
+    end
+
+    private
+
+    def return_nil_if_empty(matches)
+      matches.to_a.empty? ? nil : matches[1]
     end
   end
 end

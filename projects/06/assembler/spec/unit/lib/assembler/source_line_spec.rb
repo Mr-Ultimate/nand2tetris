@@ -27,11 +27,14 @@ describe Assembler::SourceLine do
   it 'should return a computation code' do
     line = Assembler::SourceLine.new('D = A')
     line.computation.should eq 'A'
+    line.destination.should eq 'D'
+    line.jump.should be_nil
   end
 
   it 'should return a jump code' do
     line = Assembler::SourceLine.new('D;JEQ')
     line.jump.should eq 'JEQ'
+    line.computation.should be_nil
   end
 
   it 'should parse a complex code' do
