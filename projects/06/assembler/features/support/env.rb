@@ -8,6 +8,7 @@ rescue Bundler::BundlerError => e
 end
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../lib')
+
 require 'assembler/application'
 
 require 'rspec/expectations'
@@ -22,4 +23,5 @@ Before do
   dir = 'build/tmp'
   FileUtils.rm_rf dir if File.directory?(dir)
   @dirs = [dir]
+  @project_path = File.expand_path('../../../', File.dirname(__FILE__))
 end
