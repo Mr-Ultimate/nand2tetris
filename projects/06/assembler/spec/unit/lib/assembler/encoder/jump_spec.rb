@@ -4,6 +4,11 @@ require 'spec_helper'
 require 'assembler/encoder/jump'
 
 describe Assembler::Encoder::Jump do
+
+  def new_encoder(code)
+    Assembler::Encoder::Jump.new(code)
+  end
+
   it 'should be initialized with a three character jump code' do
     new_encoder('JEQ').code.should eq 'JEQ'
   end
@@ -33,8 +38,4 @@ describe Assembler::Encoder::Jump do
       new_encoder('bad').encode
     end.to raise_error SyntaxError, 'Assembly mnemonics must be written in uppercase, "bad" is not!'
   end
-end
-
-def new_encoder(code)
-  Assembler::Encoder::Jump.new(code)
 end
