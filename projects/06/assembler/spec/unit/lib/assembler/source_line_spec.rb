@@ -35,8 +35,8 @@ describe Assembler::SourceLine do
   end
 
   it 'should parse a complex code' do
-    line = Assembler::SourceLine.new('M = D+A ;JEQ')
-    line.destination.should eq 'M'
+    line = Assembler::SourceLine.new('AM = D+A ;JEQ')
+    line.destination.should eq 'AM'
     line.computation.should eq 'D+A'
     line.jump.should eq 'JEQ'
   end
