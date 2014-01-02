@@ -12,7 +12,23 @@ module Assembler
       @source == ''
     end
 
+    def label?
+      @source =~ /^\(([A-Z_\:\.\$][A-Z0-9_\:\.\$]*)\)/
+    end
+
     def symbol
+      @source.match(/^\(([A-Za-z_\:\.\$][A-Za-z0-9_\:\.\$]*)\)/)[1]
+    end
+
+    def variable
+      @source.match(/@([a-zA-Z_\:\.\$][a-zA-Z0-9_\:\.\$]*)/)[1]
+    end
+
+    def variable?
+      @source =~ /@([a-zA-Z_\:\.\$][a-zA-Z0-9_\:\.\$]*)/
+    end
+
+    def value
       @source[1..@source.size - 1].to_i if @source[0] == '@'
     end
 

@@ -4,6 +4,7 @@ module Assembler
   class SymbolTable
     def initialize
       @symbols = {}
+      @next_memory = 16
       (0..15).each { |n| add_entry("R#{n}", n) }
       {
         'SP' => 0,
@@ -11,8 +12,8 @@ module Assembler
         'ARG' => 2,
         'THIS' => 3,
         'THAT' => 4,
-        'SCREEN' => 16384,
-        'KBD' => 24576
+        'SCREEN' => 16_384,
+        'KBD' => 24_576
       }.each { |symbol, address| add_entry(symbol, address) }
     end
 
@@ -28,6 +29,11 @@ module Assembler
       address = @symbols.fetch(symbol, nil)
       fail ArgumentError, "The symbol, \"#{symbol}\", can not be found!" unless address
       address
+    end
+
+    def add_reference(symbol)
+      add_entry(symbol, @next_memory)
+      @next_memory += 1
     end
   end
 end

@@ -2,6 +2,7 @@
 
 require 'assembler/source_line'
 require 'assembler/source_line_encoder'
+require 'assembler/symbol_table'
 
 module Assembler
   class Application
@@ -14,11 +15,41 @@ module Assembler
       puts source_file
       dest_file = @argv.first.match(/(.+)\.asm/)[1] + '.hack'
 
+      symbol_table = Assembler::SymbolTable.new
+
+      # Loop 1
+      line_number = 0
+      File.open(source_file, 'r').each do |source_line|
+        parsed_line = Assembler::SourceLine.new(source_line)
+        if parsed_line.label?
+          symbol_table.add_entry(parsed_line.symbol, line_number)
+        end
+        unless parsed_line.blank? || parsed_line.label?
+          line_number += 1
+        end
+      end
+
+      # Loop 2
+
       File.open(dest_file, 'w') do |output|
         File.open(source_file, 'r').each do |source_line|
           parsed_line = Assembler::SourceLine.new(source_line)
-          unless parsed_line.blank?
-            encoded = Assembler::SourceLineEncoder.new(parsed_line).encode
+          unless parsed_line.blank? || parsed_line.label?
+
+            if parsed_line.variable?
+              if symbol_table.contains?(parsed_line.variable)
+                value = symbol_table.address_for(parsed_line.variable)
+                new_line = Assembler::SourceLine.new("@#{value}")
+                encoded = Assembler::SourceLineEncoder.new(new_line).encode
+              else
+                symbol_table.add_reference(parsed_line.variable)
+                value = symbol_table.address_for(parsed_line.variable)
+                new_line = Assembler::SourceLine.new("@#{value}")
+                encoded = Assembler::SourceLineEncoder.new(new_line).encode
+              end
+            else
+              encoded = Assembler::SourceLineEncoder.new(parsed_line).encode
+            end
             output.puts encoded
           end
         end

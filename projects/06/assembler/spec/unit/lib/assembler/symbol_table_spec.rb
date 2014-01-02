@@ -32,8 +32,8 @@ describe Assembler::SymbolTable do
       'ARG' => 2,
       'THIS' => 3,
       'THAT' => 4,
-      'SCREEN' => 16384,
-      'KBD' => 24576
+      'SCREEN' => 16_384,
+      'KBD' => 24_576
     }.each do |symbol, address|
       @st.contains?(symbol).should be_true
       @st.address_for(symbol).should eq address
@@ -55,5 +55,13 @@ describe Assembler::SymbolTable do
     @st.add_entry('bar', 612)
     @st.contains?('foo').should be_true
     @st.address_for('bar').should eq 612
+  end
+
+  it 'should add a reference to the next available ram address' do
+    @st.add_entry('foo', 123)
+    @st.add_reference('baz')
+    @st.add_reference('bip')
+    @st.address_for('bip').should eq 17
+
   end
 end

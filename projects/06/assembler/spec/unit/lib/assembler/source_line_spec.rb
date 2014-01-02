@@ -16,12 +16,23 @@ describe Assembler::SourceLine do
 
   it 'should return the decimal for an A instruction' do
     line = Assembler::SourceLine.new('@123')
-    line.symbol.should eq 123
+    line.value.should eq 123
+    line.variable?.should be_false
+  end
+
+  it 'should return the variable for an A instruction' do
+    line = Assembler::SourceLine.new('@abc')
+    line.variable.should eq 'abc'
+  end
+
+  it 'should report if the A instruction is a variable' do
+    line = Assembler::SourceLine.new('@abc')
+    line.variable?.should be_true
   end
 
   it 'should strip white space and trailing comments' do
     line = Assembler::SourceLine.new('     @123  //comment')
-    line.symbol.should eq 123
+    line.value.should eq 123
   end
 
   it 'should return a destination code' do
@@ -48,5 +59,11 @@ describe Assembler::SourceLine do
     line.destination.should eq 'AM'
     line.computation.should eq 'D+A'
     line.jump.should eq 'JEQ'
+  end
+
+  it 'should report if the line is a label' do
+    line = Assembler::SourceLine.new('  (GOTO)  ')
+    line.label?.should be_true
+    line.symbol.should eq 'GOTO'
   end
 end

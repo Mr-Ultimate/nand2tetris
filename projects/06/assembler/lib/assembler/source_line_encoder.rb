@@ -12,8 +12,8 @@ module Assembler
     end
 
     def encode
-      if @source_line.symbol
-        Encoder::Integer.new(@source_line.symbol).encode
+      if @source_line.value
+        Encoder::Integer.new(@source_line.value).encode
       else
         computation = Encoder::Computation.new(@source_line.computation).encode
         destination = Encoder::Destination.new(@source_line.destination).encode
