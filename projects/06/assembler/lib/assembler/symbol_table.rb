@@ -32,8 +32,10 @@ module Assembler
     end
 
     def add_reference(symbol)
-      add_entry(symbol, @next_memory)
+      last_memory = @next_memory
+      add_entry(symbol, last_memory)
       @next_memory += 1
+      last_memory
     end
   end
 end

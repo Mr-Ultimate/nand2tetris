@@ -1,3 +1,4 @@
+@announce
 Feature: Translate asm to hack
   In order to have a hack binary program
   As student of nand2tetris
