@@ -138,10 +138,26 @@ describe Assembler::Instruction::Computation do
     end
   end
 
-  it 'should raise a syntax error if code is unknown' do
+  it 'should raise a syntax error if computation code is unknown' do
     expect do
       instruction.computation = 'BAD'
       instruction.encode(symbol_table_stub)
     end.to raise_error SyntaxError, '"BAD" is not a valid computation code!'
+  end
+
+  it 'should raise a syntax error if jump code is unknown' do
+    expect do
+      instruction.computation = 'D'
+      instruction.jump = 'BAD'
+      instruction.encode(symbol_table_stub)
+    end.to raise_error SyntaxError, '"BAD" is not a valid jump code!'
+  end
+
+  it 'should raise a syntax error if code is unknown' do
+    expect do
+      instruction.computation = 'D'
+      instruction.destination = 'BAD'
+      instruction.encode(symbol_table_stub)
+    end.to raise_error SyntaxError, '"BAD" is not a valid destination code!'
   end
 end

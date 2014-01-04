@@ -35,6 +35,8 @@ module Assembler
       def encode_destination
         return '000' unless destination
         destination_map.fetch(destination)
+        rescue KeyError
+          raise SyntaxError, "\"#{destination}\" is not a valid destination code!"
       end
 
       def destination_map
@@ -47,6 +49,8 @@ module Assembler
       def encode_jump
         return '000' unless jump
         jump_map.fetch(jump)
+        rescue KeyError
+          raise SyntaxError, "\"#{jump}\" is not a valid jump code!"
       end
 
       def jump_map
