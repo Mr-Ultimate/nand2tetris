@@ -15,6 +15,11 @@ module Assembler
         symbol_table.add_entry(@symbol, line_number)
         line_number
       end
+
+      def self.new_from_line(instruction)
+        parts = /^\(([A-Za-z_\:\.\$][A-Za-z0-9_\:\.\$]*)\)/.match(instruction)
+        new(parts[1]) unless parts.nil?
+      end
     end
   end
 end

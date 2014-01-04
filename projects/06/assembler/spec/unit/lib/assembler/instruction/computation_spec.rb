@@ -162,7 +162,7 @@ describe Assembler::Instruction::Computation do
   end
 
   it 'should return nil if it can not parse itself from an instruction' do
-    Assembler::Instruction::Computation.new_from_line(' @not_computation ').should be_nil
+    Assembler::Instruction::Computation.new_from_line('@not_computation').should be_nil
   end
 
   it 'should return a new instruction if it can parse itself from an instruction' do

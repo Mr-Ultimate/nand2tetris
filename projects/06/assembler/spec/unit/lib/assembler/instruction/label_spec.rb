@@ -20,4 +20,12 @@ describe Assembler::Instruction::Label do
     instruction.prepare_line(mock_symbol_table, 10).should eq 10
   end
 
+  it 'should return nil if it can not parse itself from an instruction' do
+    Assembler::Instruction::Label.new_from_line('D=A').should be_nil
+  end
+
+  it 'should return a new instruction if it can parse itself from an instruction' do
+    i = Assembler::Instruction::Label.new_from_line('(GOTO)')
+    i.symbol.should eq 'GOTO'
+  end
 end

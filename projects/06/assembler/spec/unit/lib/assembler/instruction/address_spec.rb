@@ -34,4 +34,13 @@ describe Assembler::Instruction::Address do
     i = Assembler::Instruction::Address.new('GOTO')
     i.encode(mock_symbol_table).should eq '0000000001100100'
   end
+
+  it 'should return nil if it can not parse itself from an instruction' do
+    Assembler::Instruction::Address.new_from_line('D=A').should be_nil
+  end
+
+  it 'should return a new instruction if it can parse itself from an instruction' do
+    i = Assembler::Instruction::Address.new_from_line('@asdf')
+    i.value.should eq 'asdf'
+  end
 end

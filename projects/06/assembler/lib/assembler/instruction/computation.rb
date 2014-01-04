@@ -26,8 +26,8 @@ module Assembler
         '111' + encode_computation + encode_destination + encode_jump
       end
 
-      def self.new_from_line(line)
-        parts = /^(?:([AMD]{0,3})=)?([\w\&\|!\-+]{0,3})(?:;(.{3}))?/.match(line)
+      def self.new_from_line(instruction)
+        parts = /^(?:([AMD]{0,3})=)?([\w\&\|!\-+]{0,3})(?:;(.{3}))?/.match(instruction)
         unless parts[0].empty?
           instruction = new
           instruction.destination = parts[1]

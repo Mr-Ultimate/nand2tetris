@@ -21,6 +21,11 @@ module Assembler
         end
       end
 
+      def self.new_from_line(instruction)
+        parts = /^@(\d+$|[a-zA-Z_\$\:][a-zA-Z0-9_\$\:]+)/.match(instruction)
+        new(parts[1]) unless parts.nil?
+      end
+
       private
 
       def to_binary(numeric)
