@@ -10,6 +10,8 @@ module Assembler
       def encode(symbol_table)
         nil
       end
+
+      # TODO: the static parsing could be pulled up here and delegated to a pattern
     end
   end
 end

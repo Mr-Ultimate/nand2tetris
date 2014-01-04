@@ -55,3 +55,10 @@ This iteration is most pleasing as we only update the screen memory when the key
 Implementing the memory module was relatively straight forward, but the CPU was much more daunting. I found it helpful to abstract the control responsibilities into two additional chips: "Decoder," and "JumpDirector."
 
 The final implementation of the "computer" chip was very satisfying, they pretty much just plugged together.
+
+###Project 6
+The first programming project gave me an opportunity to learn more about assemblers and practice my clean coding skills. I started with a quick and dirty implementation (test driven, of course) and then refactored considerably to better capture the domain objects.
+
+Originally I had encapsulated the encoding logic for specific types of things, like an individual computation mnemonic, for example. This seemed more confusing and creating a series of instruction objects prevailed.
+
+There remains some duplication and methods that are larger than I would like. It would be worth pulling out the error exceptions into their own construct and standardizing them, as well as pulling apart the CLI application from the main loops.

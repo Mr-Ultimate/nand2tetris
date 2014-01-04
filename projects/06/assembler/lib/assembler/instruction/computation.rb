@@ -7,6 +7,8 @@ module Assembler
     class Computation < AbstractInstruction
       attr_reader :destination, :computation, :jump
 
+      # TODO: there really isn't a reason to not just put these in a constructor
+
       def jump=(jump)
         validate_case jump
         @jump = jump

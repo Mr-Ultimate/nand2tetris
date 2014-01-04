@@ -9,6 +9,9 @@ module Assembler
       @argv, @stdin, @stdout, @stderr, @kernel = argv, stdin, stdout, stderr, kernel
     end
 
+    # TODO: pull out errors into a standard form
+    # TODO: create an object to assemble and or operate on the File
+
     def execute!
       source_file = @argv.first
       puts source_file
