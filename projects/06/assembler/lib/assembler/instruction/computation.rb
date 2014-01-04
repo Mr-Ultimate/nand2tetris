@@ -26,10 +26,21 @@ module Assembler
         '111' + encode_computation + encode_destination + encode_jump
       end
 
+      def self.new_from_line(line)
+        parts = /^(?:([AMD]{0,3})=)?([\w\&\|!\-+]{0,3})(?:;(.{3}))?/.match(line)
+        unless parts[0].empty?
+          instruction = new
+          instruction.destination = parts[1]
+          instruction.computation = parts[2]
+          instruction.jump = parts[3]
+          instruction
+        end
+      end
+
       private
 
       def validate_case(code)
-        fail(SyntaxError, "Assembly mnemonics must be written in uppercase, \"#{code}\" is not!") unless code == code.upcase
+        fail(SyntaxError, "Assembly mnemonics must be written in uppercase, \"#{code}\" is not!") unless code == code.upcase if code
       end
 
       def encode_destination

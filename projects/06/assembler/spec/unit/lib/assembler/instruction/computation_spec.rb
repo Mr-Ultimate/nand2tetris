@@ -160,4 +160,15 @@ describe Assembler::Instruction::Computation do
       instruction.encode(symbol_table_stub)
     end.to raise_error SyntaxError, '"BAD" is not a valid destination code!'
   end
+
+  it 'should return nil if it can not parse itself from an instruction' do
+    Assembler::Instruction::Computation.new_from_line(' @not_computation ').should be_nil
+  end
+
+  it 'should return a new instruction if it can parse itself from an instruction' do
+    i = Assembler::Instruction::Computation.new_from_line('D;JGT')
+    i.computation.should eq 'D'
+    i.jump.should eq 'JGT'
+  end
+
 end
