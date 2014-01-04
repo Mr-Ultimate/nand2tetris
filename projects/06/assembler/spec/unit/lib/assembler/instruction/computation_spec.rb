@@ -137,4 +137,11 @@ describe Assembler::Instruction::Computation do
       i.encode(symbol_table_stub).should eq "111#{encoded}000000"
     end
   end
+
+  it 'should raise a syntax error if code is unknown' do
+    expect do
+      instruction.computation = 'BAD'
+      instruction.encode(symbol_table_stub)
+    end.to raise_error SyntaxError, '"BAD" is not a valid computation code!'
+  end
 end

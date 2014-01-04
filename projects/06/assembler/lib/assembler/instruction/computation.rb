@@ -34,40 +34,36 @@ module Assembler
 
       def encode_destination
         return '000' unless destination
-        {
-          'M' => '001',
-          'D' => '010',
-          'MD' => '011',
-          'A' => '100',
-          'AM' => '101',
-          'AD' => '110',
-          'AMD' => '111'
-        }.fetch(destination)
+        destination_map.fetch(destination)
       end
 
-      def encode_computation
-        fail SyntaxError, 'A computation code must be provided.' unless computation
-        # begin
-        computation_map.merge(reverse_computation_map).fetch(computation)
-        # rescue KeyError
-          # raise SyntaxError, "#{self.inspect}"
-        # end
+      def destination_map
+        {
+          'M' => '001', 'D' => '010', 'MD' => '011', 'A' => '100',
+          'AM' => '101', 'AD' => '110', 'AMD' => '111'
+        }
       end
 
       def encode_jump
         return '000' unless jump
-        {
-          'JGT' => '001',
-          'JEQ' => '010',
-          'JGE' => '011',
-          'JLT' => '100',
-          'JNE' => '101',
-          'JLE' => '110',
-          'JMP' => '111'
-        }.fetch(jump)
+        jump_map.fetch(jump)
       end
 
-      private
+      def jump_map
+        {
+          'JGT' => '001', 'JEQ' => '010', 'JGE' => '011', 'JLT' => '100',
+          'JNE' => '101', 'JLE' => '110', 'JMP' => '111'
+        }
+      end
+
+      def encode_computation
+        fail SyntaxError, 'A computation code must be provided.' unless computation
+        begin
+          computation_map.merge(reverse_computation_map).fetch(computation)
+        rescue KeyError
+          raise SyntaxError, "\"#{computation}\" is not a valid computation code!"
+        end
+      end
 
       def computation_map
         {
