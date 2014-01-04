@@ -27,9 +27,9 @@ module Assembler
         computation = line.match(/^(?:([AMD]{0,3})=)?([\w\&\|!\-+]{0,3})(?:;(.{3}))?/)
         if computation
           c = Computation.new
-          c.destination = $1 if $1
-          c.computation = $2 if $2
-          c.jump = $3 if $3
+          c.destination = computation[1] if computation[1]
+          c.computation = computation[2] if computation[2]
+          c.jump = computation[3] if computation[3]
           c
         end
       end

@@ -27,11 +27,13 @@ describe Assembler::Instruction::Factory do
   end
 
   it 'should return a valid computation instruction' do
-    i = build('  D=M              // D = first number')
-    i.should be_an_instance_of Assembler::Instruction::Computation
-    i.jump.should be_nil
-    i.destination.should eq 'D'
-    i.computation.should eq 'M'
+    %w(!A D&A D|A D+A M&D).each do |code|
+      i = build("D=#{code}")
+      i.should be_an_instance_of Assembler::Instruction::Computation
+      i.jump.should be_nil
+      i.destination.should eq 'D'
+      i.computation.should eq code
+    end
   end
 
   it 'should return a valid jump instruction' do

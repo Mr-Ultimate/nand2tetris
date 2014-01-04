@@ -38,7 +38,6 @@ module Assembler
       #   end
       # end
 
-
       File.open(dest_file, 'w') do |output|
         File.open(source_file, 'r').each do |line|
           instruction = Assembler::Instruction::Factory.build_instruction(line)
@@ -48,8 +47,6 @@ module Assembler
           end
         end
       end
-
-
 
       # Loop 2
 

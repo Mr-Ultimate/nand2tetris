@@ -114,9 +114,27 @@ describe Assembler::Instruction::Computation do
     end
   end
 
-    it 'should encode a more complicated command' do
-      instruction.computation = 'D'
-      instruction.jump = 'JGT'
-      instruction.encode(symbol_table_stub).should eq '1110001100000001'
+  it 'should encode a more complicated command' do
+    instruction.computation = 'D'
+    instruction.jump = 'JGT'
+    instruction.encode(symbol_table_stub).should eq '1110001100000001'
+  end
+
+  it 'should support reverse order of + & and | operations' do
+    {
+     '1+D' => '0011111',
+     '1+A' => '0110111',
+     'A+D' => '0000010',
+     'A&D' => '0000000',
+     'A|D' => '0010101',
+     '1+M' => '1110111',
+     'M+D' => '1000010',
+     'M&D' => '1000000',
+     'M|D' => '1010101'
+    }.each do |code, encoded|
+      i = Assembler::Instruction::Computation.new
+      i.computation = code
+      i.encode(symbol_table_stub).should eq "111#{encoded}000000"
     end
+  end
 end
