@@ -22,7 +22,8 @@ module Assembler
       def self.parse_to_instruction(line)
         Label.new_from_line(line) ||
         Address.new_from_line(line) ||
-        Computation.new_from_line(line)
+        Computation.new_from_line(line) ||
+        fail(SyntaxError, "\"#{line}\" does not resolve to any instruction.")
       end
     end
   end

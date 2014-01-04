@@ -44,6 +44,13 @@ describe Assembler::Instruction::Factory do
     i.destination.should be_nil
   end
 
+  it 'should raise an error if the instruction is not parsable' do
+    expect do
+      i = build('BADSINST')
+      puts i.inspect
+    end.to raise_error SyntaxError, '"BADSINST" does not resolve to any instruction.'
+  end
+
   def build(line)
     Assembler::Instruction::Factory.build_instruction(line)
   end

@@ -169,6 +169,9 @@ describe Assembler::Instruction::Computation do
     i = Assembler::Instruction::Computation.new_from_line('D;JGT')
     i.computation.should eq 'D'
     i.jump.should eq 'JGT'
+    i = Assembler::Instruction::Computation.new_from_line('0;JMP')
+    i.computation.should eq '0'
+    i.jump.should eq 'JMP'
   end
 
 end

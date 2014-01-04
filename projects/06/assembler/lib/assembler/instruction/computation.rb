@@ -27,12 +27,11 @@ module Assembler
       end
 
       def self.new_from_line(instruction)
-        parts = /^(?:([AMD]{0,3})=)?([\w\&\|!\-+]{0,3})(?:;(.{3}))?/.match(instruction)
-        unless parts[0].empty?
+        if instruction.match(/^(?:([AMD]{0,3})=)?([A-Z01\&\|!\-+]{0,3}\b)(?:;(.{3}))?$/)
           instruction = new
-          instruction.destination = parts[1]
-          instruction.computation = parts[2]
-          instruction.jump = parts[3]
+          instruction.destination = $1
+          instruction.computation = $2
+          instruction.jump = $3
           instruction
         end
       end

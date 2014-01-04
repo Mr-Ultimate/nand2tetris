@@ -20,4 +20,5 @@ describe Assembler::Instruction::AbstractInstruction do
   it 'should return nil for encode by default' do
     instruction.encode(symbol_table_stub).should be_nil
   end
+
 end
