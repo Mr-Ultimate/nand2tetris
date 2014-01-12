@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="Nand2TetrisVMTranslator" default="build" basedir="."> 
-  <target name="build">
-    <echo>build target</echo>
-  </target>
-</project>
