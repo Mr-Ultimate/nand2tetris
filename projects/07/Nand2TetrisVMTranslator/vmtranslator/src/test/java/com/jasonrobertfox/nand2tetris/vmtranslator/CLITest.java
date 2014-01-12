@@ -1,13 +1,13 @@
+
 package com.jasonrobertfox.nand2tetris.vmtranslator;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.contrib.java.lang.system.StandardOutputStreamLog;
 
 public class CLITest
 {
@@ -16,33 +16,32 @@ public class CLITest
 
   @Rule
   public final ExpectedSystemExit exit = ExpectedSystemExit.none();
-  
-  
+
+  @Rule
+  public final StandardOutputStreamLog log = new StandardOutputStreamLog();
+
   @Test
   public void itShouldShowUsageForNoArgument()
   {
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    PrintStream console = System.out;
-    try {
-      System.setOut(new PrintStream(bytes));
-      CLI.main(new String[]{});
-    } finally {
-      System.setOut(console);
-    }
-    assertEquals(String.format("Must provide a *.vm file or directory.%n", EOL), bytes.toString());
+    expectAbortWithMessage(String.format("Must provide a *.vm file or directory.%n", EOL));
+    CLI.main(new String[] {});
   }
-  
-//  @Test
-//  public void itShouldErrorForANotFoundFile()
-//  {
-//    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//    PrintStream console = System.out;
-//    try {
-//      System.setOut(new PrintStream(bytes));
-//      CLI.main(NON_EXISTANT_FILE);
-//    } finally {
-//      System.setOut(console);
-//    }
-//    assertEquals(String.format("The file: %s does not exist.%n", NON_EXISTANT_FILE, EOL), bytes.toString());
-//  }
+
+  @Test
+  public void itShouldErrorForANotFoundFile()
+  {
+    expectAbortWithMessage(String.format("The file: %s does not exist.%n", NON_EXISTANT_FILE, EOL));
+    CLI.main(NON_EXISTANT_FILE);
+  }
+
+  private void expectAbortWithMessage(final String errorMessage)
+  {
+    exit.expectSystemExitWithStatus(1);
+    exit.checkAssertionAfterwards(new Assertion() {
+      public void checkAssertion()
+      {
+        assertEquals(errorMessage, log.getLog());
+      }
+    });
+  }
 }
