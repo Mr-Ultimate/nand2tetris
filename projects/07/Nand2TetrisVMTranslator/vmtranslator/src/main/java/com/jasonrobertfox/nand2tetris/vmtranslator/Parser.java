@@ -40,30 +40,28 @@ public class Parser
     return commandMap.get(Command.valueOf(token));
   }
 
-  
   public Object getFirstArgument()
   {
-    if (currentLineTokens.length == 1){
+    if (currentLineTokens.length == 1) {
       return Command.valueOf(currentLineTokens[0].toUpperCase());
     } else {
       return currentLineTokens[1];
     }
   }
-  
+
   public Object getSecondArgument()
   {
     return currentLineTokens.length == 3 ? currentLineTokens[2] : null;
   }
-  
-  
+
   private void readNextLine()
   {
     try {
       String rawLine = reader.readLine();
-      if (rawLine != null){
+      if (rawLine != null) {
         nextLine = rawLine.replaceAll("//.*", "").trim();
 
-      }else{
+      } else {
         nextLine = rawLine;
       }
     } catch (IOException e) {
@@ -74,12 +72,16 @@ public class Parser
   private void initializeCommandMap()
   {
     commandMap = new EnumMap<Command, CommandType>(Command.class);
+    commandMap.put(Command.ADD, CommandType.ARITHMETIC);
+    commandMap.put(Command.SUB, CommandType.ARITHMETIC);
+    commandMap.put(Command.NEG, CommandType.ARITHMETIC);
+    commandMap.put(Command.EQ, CommandType.ARITHMETIC);
+    commandMap.put(Command.GT, CommandType.ARITHMETIC);
+    commandMap.put(Command.LT, CommandType.ARITHMETIC);
+    commandMap.put(Command.AND, CommandType.ARITHMETIC);
+    commandMap.put(Command.OR, CommandType.ARITHMETIC);
     commandMap.put(Command.NOT, CommandType.ARITHMETIC);
     commandMap.put(Command.PUSH, CommandType.PUSH);
   }
-
-
-
-
 
 }
