@@ -36,6 +36,14 @@ public class ParserTest
     assertFalse(testParser.hasMoreCommands());
   }
   
+  @Test
+  public void itShouldParseAnArithmeticCommand(){
+    Parser testParser = initializeTestParserWithData("  not  //this is a comment");
+    testParser.advance();
+    assertEquals(CommandType.ARITHMETIC, testParser.commandType());
+    assertEquals(Command.NOT, testParser.getFirstArgument());
+  }
+  
   private Parser initializeTestParserWithData(String data){
     StringReader stringReader = new StringReader(data);
     BufferedReader bufferedReader = new BufferedReader(stringReader);
