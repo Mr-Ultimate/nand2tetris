@@ -38,7 +38,9 @@ public class CodeWriterTest
   @Test
   public void itCanTranslateAPushConstantCommand(){
     testCodeWriter.writePush("constant", 123);
-    assertOutputEquals("@123\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n");
+    assertOutputEquals("@123\nD=A\n@SP\nAM=M+1\nA=A-1\nM=D\n");
+    
+
   }
   
   @Test

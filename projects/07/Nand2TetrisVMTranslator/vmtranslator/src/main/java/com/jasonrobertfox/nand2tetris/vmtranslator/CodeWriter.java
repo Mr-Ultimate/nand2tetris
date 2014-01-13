@@ -39,10 +39,9 @@ public class CodeWriter
     writeLine(String.format("@%d", index));
     writeLine("D=A");
     writeLine("@SP");
-    writeLine("A=M");
+    writeLine("AM=M+1");
+    writeLine("A=A-1");
     writeLine("M=D");
-    writeLine("@SP");
-    writeLine("M=M+1");
   }
 
   public void writeArithmetic(String string)
