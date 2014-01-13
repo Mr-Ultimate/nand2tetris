@@ -44,6 +44,15 @@ public class ParserTest
     assertEquals(Command.NOT, testParser.getFirstArgument());
   }
   
+  @Test
+  public void itShuldParseAPushCommand(){
+    Parser testParser = initializeTestParserWithData("  push constant 891   //a push command");
+    testParser.advance();
+    assertEquals(CommandType.PUSH, testParser.commandType());
+    assertEquals("constant", testParser.getFirstArgument());
+    assertEquals("891", testParser.getSecondArgument());
+  }
+  
   private Parser initializeTestParserWithData(String data){
     StringReader stringReader = new StringReader(data);
     BufferedReader bufferedReader = new BufferedReader(stringReader);

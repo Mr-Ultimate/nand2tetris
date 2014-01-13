@@ -12,6 +12,7 @@ public class Parser
   private String currentLine;
   private BufferedReader reader;
   private EnumMap<Command, CommandType> commandMap;
+  private String[] currentLineTokens;
 
   public Parser(BufferedReader reader)
   {
@@ -28,20 +29,30 @@ public class Parser
 
   public void advance()
   {
-    currentLine = nextLine;
+    currentLineTokens = nextLine.split("\\s");
     readNextLine();
 
   }
 
   public CommandType commandType()
   {
-    return commandMap.get(Command.valueOf(currentLine.toUpperCase()));
+    String token = currentLineTokens[0].toUpperCase();
+    return commandMap.get(Command.valueOf(token));
   }
 
   
   public Object getFirstArgument()
   {
-    return Command.valueOf(currentLine.toUpperCase());
+    if (currentLineTokens.length == 1){
+      return Command.valueOf(currentLineTokens[0].toUpperCase());
+    } else {
+      return currentLineTokens[1];
+    }
+  }
+  
+  public Object getSecondArgument()
+  {
+    return currentLineTokens.length == 3 ? currentLineTokens[2] : null;
   }
   
   
@@ -51,6 +62,7 @@ public class Parser
       String rawLine = reader.readLine();
       if (rawLine != null){
         nextLine = rawLine.replaceAll("//.*", "").trim();
+
       }else{
         nextLine = rawLine;
       }
@@ -63,7 +75,10 @@ public class Parser
   {
     commandMap = new EnumMap<Command, CommandType>(Command.class);
     commandMap.put(Command.NOT, CommandType.ARITHMETIC);
+    commandMap.put(Command.PUSH, CommandType.PUSH);
   }
+
+
 
 
 
