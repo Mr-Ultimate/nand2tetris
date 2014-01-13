@@ -34,6 +34,12 @@ public class CodeWriterTest
     testCodeWriter.setFileName(VALID_INPUT_FILE_NAME);
     assertOutputEquals(String.format("// %s\n", VALID_INPUT_FILE_NAME));
   }
+  
+  @Test
+  public void itCanTranslateAPushConstantCommand(){
+    testCodeWriter.writePush("constant", 123);
+    assertOutputEquals("@123\nD=A\n@SP\nM=D\n");
+  }
 
   private void assertOutputEquals(String expected)
   {

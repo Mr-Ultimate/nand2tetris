@@ -34,4 +34,12 @@ public class CodeWriter
     writeLine(String.format("// %s", comment));
   }
 
+  public void writePush(String segment, int index)
+  {
+    writeLine(String.format("@%d", index));
+    writeLine("D=A");
+    writeLine("@SP");
+    writeLine("M=D");
+  }
+
 }
