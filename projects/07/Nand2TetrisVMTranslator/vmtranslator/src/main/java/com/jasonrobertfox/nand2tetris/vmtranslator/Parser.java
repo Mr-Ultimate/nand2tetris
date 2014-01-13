@@ -9,7 +9,6 @@ public class Parser
 {
 
   private String nextLine;
-  private String currentLine;
   private BufferedReader reader;
   private EnumMap<Command, CommandType> commandMap;
   private String[] currentLineTokens;
@@ -56,11 +55,16 @@ public class Parser
 
   private void readNextLine()
   {
+    // TODO: This is a mess, clean it up
     try {
       String rawLine = reader.readLine();
       if (rawLine != null) {
-        nextLine = rawLine.replaceAll("//.*", "").trim();
-
+        String cleanedLine = rawLine.replaceAll("//.*", "").trim();
+        if (cleanedLine.isEmpty() ){
+          readNextLine();
+        }else{
+          nextLine = cleanedLine;
+        }
       } else {
         nextLine = rawLine;
       }

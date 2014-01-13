@@ -63,6 +63,14 @@ public class ParserTest
     assertEquals("constant", testParser.getFirstArgument());
     assertEquals("891", testParser.getSecondArgument());
   }
+  
+  @Test
+  public void itShouldIgnoreBlankLinesAndComments(){
+    Parser testParser = initializeTestParserWithData("  //just a comment\n\n  sub   //a push command");
+    testParser.advance();
+    assertEquals(CommandType.ARITHMETIC, testParser.commandType());
+    assertEquals(Command.SUB, testParser.getFirstArgument());
+  }
 
   private Parser initializeTestParserWithData(String data)
   {
