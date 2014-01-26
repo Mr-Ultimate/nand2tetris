@@ -55,6 +55,33 @@ describe Translator::Job do
     job.output_path.should eq File.join(@tmp_dir, 'source.asm')
   end
 
+  it 'should indicate if there are source files remaining in the job' do
+    source_path = create_file('file.vm')
+    job = Translator::Job.new(source_path)
+    job.source_files_remaining?.should be_true
+    job.next_source_file
+    job.source_files_remaining?.should be_false
+    job.file_name.should eq 'file'
+    job.file_path.should eq source_path
+  end
+
+  it 'should load the next source file from a directory' do
+    source_path = create_dir('source')
+    create_file('source/file1.vm')
+    create_file('source/file2.vm')
+    job = Translator::Job.new(source_path)
+    job.next_source_file.file_name.should eq 'file1'
+    job.next_source_file.file_name.should eq 'file2'
+  end
+
+  it 'should raise an error if there are no more source files' do
+    expect do
+      source_path = create_file('file.vm')
+      job = Translator::Job.new(source_path)
+      job.next_source_file.next_source_file
+    end.to raise_error 'There are no more source files in the job.'
+  end
+
   after(:each) do
     FileUtils.rm_rf(@tmp_dir)
   end
