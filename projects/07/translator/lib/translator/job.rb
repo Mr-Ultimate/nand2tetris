@@ -5,7 +5,7 @@ module Translator
     VM_EXTENSION = '.vm'
     ASM_EXTENSION = '.asm'
 
-    attr_reader :output_path, :source_path, :file_name, :file_path
+    attr_reader :output_file, :source_path, :file_name, :file
 
     def initialize(source_path)
       fail ArgumentError, 'You must provide a file or directory to translate.' unless source_path
@@ -20,7 +20,7 @@ module Translator
         files = [source_path]
       end
       @source_path = source_path
-      @output_path = output_path
+      @output_file = File.new(output_path, 'w')
       @files = files
       @total_source_files = files.count
       @source_file_pointer = -1
@@ -34,7 +34,7 @@ module Translator
       fail 'There are no more source files in the job.' unless source_files_remaining?
       @source_file_pointer += 1
       file = @files[@source_file_pointer]
-      @file_path = file
+      @file = File.new(file)
       @file_name = File.basename(file, VM_EXTENSION)
       self
     end

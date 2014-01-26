@@ -44,7 +44,7 @@ describe Translator::Job do
     source_path = create_file('source.vm')
     job = Translator::Job.new(source_path)
     job.source_path.should eq source_path
-    job.output_path.should eq File.join(@tmp_dir, 'source.asm')
+    job.output_file.path.should eq File.join(@tmp_dir, 'source.asm')
   end
 
   it 'should determine the output file from an input directory' do
@@ -52,7 +52,7 @@ describe Translator::Job do
     create_file('source/file.vm')
     job = Translator::Job.new(source_path)
     job.source_path.should eq source_path
-    job.output_path.should eq File.join(@tmp_dir, 'source.asm')
+    job.output_file.path.should eq File.join(@tmp_dir, 'source.asm')
   end
 
   it 'should indicate if there are source files remaining in the job' do
@@ -62,7 +62,7 @@ describe Translator::Job do
     job.next_source_file
     job.source_files_remaining?.should be_false
     job.file_name.should eq 'file'
-    job.file_path.should eq source_path
+    job.file.should be_an_instance_of File
   end
 
   it 'should load the next source file from a directory' do
