@@ -23,5 +23,14 @@ group :tests do
       watch('spec/spec_helper.rb')
     end
   end
-end
 
+  group :system do
+    guard 'cucumber' do
+      watch(%r{^lib/.+\.rb$})
+      watch(%r{^bin/.+$})
+      watch(%r{^features/.+\.feature$})
+      watch(%r{^features/support/.+$})                      { 'features' }
+      watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+    end
+  end
+end

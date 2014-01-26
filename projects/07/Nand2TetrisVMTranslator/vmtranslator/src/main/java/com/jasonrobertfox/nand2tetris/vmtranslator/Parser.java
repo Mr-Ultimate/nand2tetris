@@ -48,7 +48,7 @@ public class Parser
     }
   }
 
-  public Object getSecondArgument()
+  public String getSecondArgument()
   {
     return currentLineTokens.length == 3 ? currentLineTokens[2] : null;
   }

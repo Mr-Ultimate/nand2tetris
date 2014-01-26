@@ -62,3 +62,6 @@ The first programming project gave me an opportunity to learn more about assembl
 Originally I had encapsulated the encoding logic for specific types of things, like an individual computation mnemonic, for example. This seemed more confusing and creating a series of instruction objects prevailed.
 
 There remains some duplication and methods that are larger than I would like. It would be worth pulling out the error exceptions into their own construct and standardizing them, as well as pulling apart the CLI application from the main loops.
+
+###Project 7
+Originally began this by playing around with Java but that was getting me nowhere. Switched back to ruby so I could focus on the concepts and not also learning a new language, will need to dedicate a separate project to that.

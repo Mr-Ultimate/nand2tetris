@@ -19,24 +19,9 @@ public class CodeWriter
     writeComment(fileName);
   }
 
-  private void writeLine(String line)
+  public void writePush(String segment, String index)
   {
-    try {
-      writer.write(String.format("%s\n", line));
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-  }
-
-  private void writeComment(String comment)
-  {
-    writeLine(String.format("// %s", comment));
-  }
-
-  public void writePush(String segment, int index)
-  {
-    writeLine(String.format("@%d", index));
+    writeLine(String.format("@%s", index));
     writeLine("D=A");
     writeLine("@SP");
     writeLine("AM=M+1");
@@ -52,6 +37,25 @@ public class CodeWriter
     writeLine("M=0");
     writeLine("A=A-1");
     writeLine("M=D+M");
+  }
+  
+  public void close() throws IOException{
+    this.writer.close();
+  }
+
+  private void writeLine(String line)
+  {
+    try {
+      writer.write(String.format("%s\n", line));
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  private void writeComment(String comment)
+  {
+    writeLine(String.format("// %s", comment));
   }
 
 }
