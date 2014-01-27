@@ -41,3 +41,8 @@ Feature: Translate a vm file into an asm file
       M=D+M
 
       """
+
+  Scenario: Stack Test
+    Given a file derived from project file "StackArithmetic/StackTest/StackTest.vm"
+    When I run `translate StackTest.vm`
+    Then a file named "StackTest.asm" should exist
