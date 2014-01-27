@@ -1,4 +1,3 @@
-@announcd
 Feature: Show command line errors for invalid input
   In order to know how to use the translator
   As a hack system developer
