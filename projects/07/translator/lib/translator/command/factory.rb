@@ -1,6 +1,7 @@
 # Encoding: utf-8
 
 require 'translator/commands/push'
+require 'translator/commands/add'
 
 module Translator
   module Command
@@ -18,7 +19,6 @@ module Translator
       end
 
       def build_command(line)
-        puts line.inspect
         tokens = line.split(/\s/)
         case tokens[0]
         when 'push'

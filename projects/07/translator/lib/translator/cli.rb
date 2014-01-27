@@ -2,6 +2,7 @@
 
 require 'translator/job'
 require 'translator/runner'
+require 'translator/command/factory'
 
 module Translator
   class Cli
@@ -11,7 +12,8 @@ module Translator
 
     def execute!
       job = Translator::Job.new(@argv.first)
-      @stdout.puts Translator::Runner.new.translate(job)
+      command_factory = Translator::Command::Factory.new
+      @stdout.puts Translator::Runner.new(command_factory).translate(job)
       @kernel.exit(0)
       rescue ArgumentError, SyntaxError => error
         @stderr.puts error.message
