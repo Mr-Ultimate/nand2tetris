@@ -10,4 +10,7 @@ describe Translator::Commands::GreaterThan do
 
   it_behaves_like 'a command'
 
+  it 'should write the correct instructions for push' do
+    expect_assembly %w(@SP AM=M-1 D=M A=A-1 D=M-D M=0 @END_GT D;JLE @SP A=M-1 M=-1 (END_GT))
+  end
 end

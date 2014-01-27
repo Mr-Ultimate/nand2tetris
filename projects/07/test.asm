@@ -23,5 +23,11 @@ M=D
 AM=M-1
 D=M
 A=A-1
-M=D+M
-
+D=M-D
+M=0
+@END_EQ
+D;JNE
+@SP
+A=M-1
+M=-1
+(END_EQ)
