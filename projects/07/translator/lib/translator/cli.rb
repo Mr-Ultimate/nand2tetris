@@ -13,7 +13,7 @@ module Translator
       job = Translator::Job.new(@argv.first)
       @stdout.puts Translator::Runner.new.translate(job)
       @kernel.exit(0)
-      rescue ArgumentError => error
+      rescue ArgumentError, SyntaxError => error
         @stderr.puts error.message
         @kernel.exit(1)
     end
