@@ -4,9 +4,9 @@ require 'translator/command/abstract'
 
 module Translator
   module Commands
-    class Add < Command::Abstract
+    class Not < Command::Abstract
       def initialize
-        @lines =  %w(@SP AM=M-1 D=M A=A-1 M=D+M)
+        @lines = %w(@SP A=M-1 M=!M)
       end
     end
   end
