@@ -6,12 +6,12 @@ require 'unit/lib/translator/commands/shared_examples'
 
 describe Translator::Commands::Equals do
 
-  let(:command) { Translator::Commands::Equals.new }
+  let(:command) { Translator::Commands::Equals.new('name_23') }
 
   it_behaves_like 'a command'
 
   it 'should write the correct instructions for push' do
-    expect_assembly %w(@SP AM=M-1 D=M A=A-1 D=M-D M=0 @END_EQ D;JNE @SP A=M-1 M=-1 (END_EQ))
+    expect_assembly %w(@SP AM=M-1 D=M A=A-1 D=M-D M=0 @END_EQ_name_23 D;JNE @SP A=M-1 M=-1 (END_EQ_name_23))
   end
 
 end

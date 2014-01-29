@@ -12,7 +12,7 @@ AM=M+1
 A=A-1
 M=D
 
-@8
+@7
 D=A
 @SP
 AM=M+1
@@ -31,3 +31,10 @@ D;JNE
 A=M-1
 M=-1
 (END_EQ)
+
+@5
+D=A
+@SP
+AM=M+1
+A=A-1
+M=D
