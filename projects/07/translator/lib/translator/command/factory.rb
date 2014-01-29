@@ -8,6 +8,7 @@ require 'translator/commands/less_than'
 require 'translator/commands/negate'
 require 'translator/commands/not'
 require 'translator/commands/or'
+require 'translator/commands/pop'
 require 'translator/commands/push'
 require 'translator/commands/subtract'
 
@@ -40,6 +41,8 @@ module Translator
           Commands::Not.new
         when 'or'
           Commands::Or.new
+        when 'pop'
+          Commands::Pop.new(tokens[1], tokens[2])
         when 'push'
           Commands::Push.new(tokens[1], tokens[2])
         when 'sub'

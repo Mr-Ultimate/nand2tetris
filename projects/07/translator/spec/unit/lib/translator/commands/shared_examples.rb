@@ -6,10 +6,11 @@ shared_examples 'a command' do
   end
 end
 
-def expect_assembly(instructions)
+def expect_assembly(instructions, specific_command = nil)
   output = double File
   instructions.each do |instruction|
     output.should_receive(:write).with("#{instruction}\n")
   end
-  command.translate(output)
+  specific_command ||= command
+  specific_command.translate(output)
 end

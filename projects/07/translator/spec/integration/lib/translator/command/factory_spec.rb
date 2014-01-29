@@ -12,6 +12,7 @@ require 'translator/commands/less_than'
 require 'translator/commands/negate'
 require 'translator/commands/not'
 require 'translator/commands/or'
+require 'translator/commands/pop'
 require 'translator/commands/push'
 require 'translator/commands/subtract'
 
@@ -49,6 +50,10 @@ describe Translator::Command::Factory do
 
   it 'should return the or command' do
     make_command('or').should be_an_instance_of Translator::Commands::Or
+  end
+
+  it 'should return the pop command' do
+    make_command('pop local 3').should be_an_instance_of Translator::Commands::Pop
   end
 
   it 'should return the push command' do
