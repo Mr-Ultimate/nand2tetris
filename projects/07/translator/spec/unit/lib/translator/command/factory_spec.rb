@@ -7,15 +7,20 @@ describe Translator::Command::Factory do
 
   let(:factory) { Translator::Command::Factory.new }
 
-  it 'should return nil for an empty string, new line, or comments' do
-    factory.build('').should be_nil
-    factory.build("\n").should be_nil
-    factory.build("   //some comments \n").should be_nil
+  it 'should fail if invalid line provided' do
+    line = double
+    line.should_receive(:valid?).and_return(false)
+    expect do
+      factory.build(line)
+    end.to raise_error ArgumentError, 'Invalid line provided.'
   end
 
   it 'should fail for an unknown command' do
+    line = double
+    line.should_receive(:valid?).and_return(true)
+    line.should_receive(:instruction).and_return('bad_command')
     expect do
-      factory.build("  bad_command //some comments \n").should be_nil
+      factory.build(line)
     end.to raise_error SyntaxError, 'VM Syntax Error: "bad_command" is an unknown command.'
   end
 end

@@ -15,30 +15,25 @@ module Translator
   module Command
     class Factory
       def build(line)
-        cleaned = clean(line)
-        return nil if cleaned == ''
-        build_command(cleaned)
+        fail ArgumentError, 'Invalid line provided.' unless line.valid?
+        build_command(line)
       end
 
       private
 
-      def clean(line)
-        line.gsub(%r(//.+), '').strip
-      end
-
       def build_command(line)
-        tokens = line.split(/\s/)
+        tokens = line.instruction.split(/\s/)
         case tokens[0]
         when 'add'
           Commands::Add.new
         when 'and'
           Commands::And.new
         when 'eq'
-          Commands::Equals.new
+          Commands::Equals.new(line.id)
         when 'gt'
-          Commands::GreaterThan.new
+          Commands::GreaterThan.new(line.id)
         when 'lt'
-          Commands::LessThan.new
+          Commands::LessThan.new(line.id)
         when 'neg'
           Commands::Negate.new
         when 'not'

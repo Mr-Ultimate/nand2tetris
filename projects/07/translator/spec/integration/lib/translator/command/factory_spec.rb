@@ -1,6 +1,7 @@
 # Encoding: utf-8
 
 require 'spec_helper'
+require 'translator/source_line'
 require 'translator/command/factory'
 
 require 'translator/commands/add'
@@ -61,5 +62,6 @@ describe Translator::Command::Factory do
 end
 
 def make_command(clean_command)
-  factory.build("   #{clean_command}    //some random comment \n")
+  line = Translator::SourceLine.new("   #{clean_command}    //some random comment \n", 'some_file', 20)
+  factory.build(line)
 end
