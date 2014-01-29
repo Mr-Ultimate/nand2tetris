@@ -5,7 +5,7 @@ task default: :build_full
 task build: [:clean, :prepare, :quality, :test]
 
 desc 'Runs standard build activities.'
-task build_full: [:build]
+task build_full: [:build, :system]
 
 desc 'Runs quality checks.'
 task quality: [:rubocop]

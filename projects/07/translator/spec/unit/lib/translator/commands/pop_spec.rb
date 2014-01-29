@@ -34,6 +34,13 @@ describe Translator::Commands::Pop do
     expect_assembly %w(@2 D=A @5 D=A+D @R15 M=D @SP AM=M-1 D=M @R15 A=M M=D), c
   end
 
+  it 'should write the correct pop pointer' do
+    c = Translator::Commands::Pop.new('pointer', 0)
+    expect_assembly %w(@SP AM=M-1 D=M @3 M=D), c
+    c = Translator::Commands::Pop.new('pointer', 1)
+    expect_assembly %w(@SP AM=M-1 D=M @4 M=D), c
+  end
+
   it 'should raise a syntax error for an unknown segment' do
     expect do
       Translator::Commands::Pop.new('bad', 2)

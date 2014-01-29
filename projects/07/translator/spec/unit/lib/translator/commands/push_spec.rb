@@ -39,6 +39,13 @@ describe Translator::Commands::Push do
     expect_assembly %w(@2 D=A @5 A=A+D D=M  @SP AM=M+1 A=A-1 M=D), c
   end
 
+  it 'should write the push pointer instructions' do
+    c = Translator::Commands::Push.new('pointer', 0)
+    expect_assembly %w(@3 D=M @SP AM=M+1 A=A-1 M=D), c
+    c = Translator::Commands::Push.new('pointer', 1)
+    expect_assembly %w(@4 D=M @SP AM=M+1 A=A-1 M=D), c
+  end
+
   it 'should raise a syntax error for an unknown segment' do
     expect do
       Translator::Commands::Push.new('bad', 2)
