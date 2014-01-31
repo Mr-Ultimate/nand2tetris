@@ -9,25 +9,35 @@ module Translator
         @segment, @index = segment, index.to_i
         @lines =  case segment
                   when 'constant'
-                    ["@#{@index}"] + %w(D=A @SP AM=M+1 A=A-1 M=D)
+                    ["@#{@index}"] + %w(D=A) + push
                   when 'local'
-                    ["@#{@index}"] + %w(D=A @LCL A=M+D D=M @SP AM=M+1 A=A-1 M=D)
+                    ["@#{@index}"] + address('LCL') + push
                   when 'argument'
-                    ["@#{@index}"] + %w(D=A @ARG A=M+D D=M @SP AM=M+1 A=A-1 M=D)
+                    ["@#{@index}"] + address('ARG') + push
                   when 'this'
-                    ["@#{@index}"] + %w(D=A @THIS A=M+D D=M @SP AM=M+1 A=A-1 M=D)
+                    ["@#{@index}"] + address('THIS') + push
                   when 'that'
-                    ["@#{@index}"] + %w(D=A @THAT A=M+D D=M @SP AM=M+1 A=A-1 M=D)
+                    ["@#{@index}"] + address('THAT') + push
                   when 'temp'
-                    ["@#{@index}"] + %w(D=A @5 A=A+D D=M @SP AM=M+1 A=A-1 M=D)
+                    ["@#{@index}"] + %w(D=A @5 A=A+D D=M) + push
                   when 'pointer'
-                    ["@#{@index + 3}"] + %w(D=M @SP AM=M+1 A=A-1 M=D)
+                    ["@#{@index + 3}"] + %w(D=M) + push
                   when 'static'
                     fail ArgumentError, 'Must provide a filename argument for static push.' unless filename
-                    ["@#{filename}.#{@index}"] + %w(D=M @SP AM=M+1 A=A-1 M=D)
+                    ["@#{filename}.#{@index}"] + %w(D=M) + push
                   else
                     fail SyntaxError, "VM Syntax Error: \"#{segment}\" is an unknown segment."
-        end
+                  end
+      end
+
+      private
+
+      def push
+        %w(@SP AM=M+1 A=A-1 M=D)
+      end
+
+      def address(key)
+        ['D=A', "@#{key}", 'A=M+D', 'D=M']
       end
     end
   end

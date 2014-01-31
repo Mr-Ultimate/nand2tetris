@@ -20,53 +20,22 @@ describe Translator::Command::Factory do
 
   let(:factory) { Translator::Command::Factory.new }
 
-  it 'should return the add command' do
-    make_command('add').should be_an_instance_of Translator::Commands::Add
+  [
+    ['add', Translator::Commands::Add],
+    ['and', Translator::Commands::And],
+    ['eq', Translator::Commands::Equals],
+    ['gt', Translator::Commands::GreaterThan],
+    ['lt', Translator::Commands::LessThan],
+    ['neg', Translator::Commands::Negate],
+    ['not', Translator::Commands::Not],
+    ['or', Translator::Commands::Or],
+    ['pop static 3', Translator::Commands::Pop],
+    ['push static 123', Translator::Commands::Push],
+    ['sub', Translator::Commands::Subtract]
+  ].each do |clean_command, result|
+    it "should return the correct command for: #{clean_command}" do
+      line = Translator::SourceLine.new("   #{clean_command}    //some random comment \n", 'some_file', 20)
+      factory.build(line).should be_an_instance_of result
+    end
   end
-
-  it 'should return the and command' do
-    make_command('and').should be_an_instance_of Translator::Commands::And
-  end
-
-  it 'should return the eq command' do
-    make_command('eq').should be_an_instance_of Translator::Commands::Equals
-  end
-
-  it 'should return the gt command' do
-    make_command('gt').should be_an_instance_of Translator::Commands::GreaterThan
-  end
-
-  it 'should return the lt command' do
-    make_command('lt').should be_an_instance_of Translator::Commands::LessThan
-  end
-
-  it 'should return the neg command' do
-    make_command('neg').should be_an_instance_of Translator::Commands::Negate
-  end
-
-  it 'should return the not command' do
-    make_command('not').should be_an_instance_of Translator::Commands::Not
-  end
-
-  it 'should return the or command' do
-    make_command('or').should be_an_instance_of Translator::Commands::Or
-  end
-
-  it 'should return the pop command' do
-    make_command('pop static 3').should be_an_instance_of Translator::Commands::Pop
-  end
-
-  it 'should return the push command' do
-    make_command('push static 123').should be_an_instance_of Translator::Commands::Push
-  end
-
-  it 'should return the sub command' do
-    make_command('sub').should be_an_instance_of Translator::Commands::Subtract
-  end
-
-end
-
-def make_command(clean_command)
-  line = Translator::SourceLine.new("   #{clean_command}    //some random comment \n", 'some_file', 20)
-  factory.build(line)
 end

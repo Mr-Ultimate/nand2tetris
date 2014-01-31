@@ -66,4 +66,6 @@ There remains some duplication and methods that are larger than I would like. It
 ###Project 7
 Originally began this by playing around with Java but that was getting me nowhere. Switched back to ruby so I could focus on the concepts and not also learning a new language, will need to dedicate a separate project to that.
 
-Worked through the first part of the implementation and had to create unique id for the the various comparisons as they required jump locations, this is less than ideal though, there is the obvious improvement of some how leverage one comparison operator and using temp variables to hold the arguments. This should be considered.
+Worked through the first part of the implementation and had to create unique id for the the various comparisons as they required jump locations, this is less than ideal though, there is the obvious improvement of some how leveraging one comparison operator and using temp variables to hold the arguments. This should be considered.
+
+The rest of the command implementations were not too difficult, although there are probably ways to generalize the various assembly operations into discrete units and remove duplication from the various command objects.

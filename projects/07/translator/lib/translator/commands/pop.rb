@@ -9,15 +9,15 @@ module Translator
         @segment, @index = segment, index.to_i
         @lines =  case segment
                   when 'local'
-                    ["@#{@index}"] + %w(D=A @LCL D=M+D @R15 M=D @SP AM=M-1 D=M @R15 A=M M=D)
+                    ["@#{@index}"] + address('LCL') + pop
                   when 'argument'
-                    ["@#{@index}"] + %w(D=A @ARG D=M+D @R15 M=D @SP AM=M-1 D=M @R15 A=M M=D)
+                    ["@#{@index}"] + address('ARG') + pop
                   when 'this'
-                    ["@#{@index}"] + %w(D=A @THIS D=M+D @R15 M=D @SP AM=M-1 D=M @R15 A=M M=D)
+                    ["@#{@index}"] + address('THIS') + pop
                   when 'that'
-                    ["@#{@index}"] + %w(D=A @THAT D=M+D @R15 M=D @SP AM=M-1 D=M @R15 A=M M=D)
+                    ["@#{@index}"] + address('THAT') + pop
                   when 'temp'
-                    ["@#{@index}"] + %w(D=A @5 D=A+D @R15 M=D @SP AM=M-1 D=M @R15 A=M M=D)
+                    ["@#{@index}"] + %w(D=A @5 D=A+D) + pop
                   when 'pointer'
                     %w(@SP AM=M-1 D=M) + ["@#{@index + 3}"] + %w(M=D)
                   when 'static'
@@ -25,7 +25,17 @@ module Translator
                     %w(@SP AM=M-1 D=M) + ["@#{filename}.#{@index}"] + %w(M=D)
                   else
                     fail SyntaxError, "VM Syntax Error: \"#{segment}\" is an unknown segment."
-        end
+                  end
+      end
+
+      private
+
+      def pop
+        %w(@R15 M=D @SP AM=M-1 D=M @R15 A=M M=D)
+      end
+
+      def address(key)
+        ['D=A', "@#{key}", 'D=M+D']
       end
     end
   end
