@@ -42,9 +42,9 @@ module Translator
         when 'or'
           Commands::Or.new
         when 'pop'
-          Commands::Pop.new(tokens[1], tokens[2])
+          Commands::Pop.new(tokens[1], tokens[2], line.from_file)
         when 'push'
-          Commands::Push.new(tokens[1], tokens[2])
+          Commands::Push.new(tokens[1], tokens[2], line.from_file)
         when 'sub'
           Commands::Subtract.new
         else

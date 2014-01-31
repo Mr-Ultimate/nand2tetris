@@ -53,11 +53,11 @@ describe Translator::Command::Factory do
   end
 
   it 'should return the pop command' do
-    make_command('pop local 3').should be_an_instance_of Translator::Commands::Pop
+    make_command('pop static 3').should be_an_instance_of Translator::Commands::Pop
   end
 
   it 'should return the push command' do
-    make_command('push constant 123').should be_an_instance_of Translator::Commands::Push
+    make_command('push static 123').should be_an_instance_of Translator::Commands::Push
   end
 
   it 'should return the sub command' do
