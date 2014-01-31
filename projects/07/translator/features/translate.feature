@@ -718,3 +718,84 @@ A=A-1
 M=D+M
 
 """
+
+  Scenario: I can translate a directory of empty files
+    Given a file named "vm_files/source.vm" with:
+"""
+push constant 10
+push constant 10
+add
+"""
+    And a file named "vm_files/source2.vm" with:
+"""
+push constant 10
+push constant 5
+sub
+add
+push constant 25
+eq
+"""
+    When I run `translate vm_files`
+    Then the stdout should contain "Translated the contents of \"vm_files\" to \"vm_files.asm\"."
+    And the exit status should be 0
+     And the file "vm_files.asm" should contain exactly:
+"""
+@10
+D=A
+@SP
+AM=M+1
+A=A-1
+M=D
+@10
+D=A
+@SP
+AM=M+1
+A=A-1
+M=D
+@SP
+AM=M-1
+D=M
+A=A-1
+M=D+M
+@10
+D=A
+@SP
+AM=M+1
+A=A-1
+M=D
+@5
+D=A
+@SP
+AM=M+1
+A=A-1
+M=D
+@SP
+AM=M-1
+D=M
+A=A-1
+M=M-D
+@SP
+AM=M-1
+D=M
+A=A-1
+M=D+M
+@25
+D=A
+@SP
+AM=M+1
+A=A-1
+M=D
+@SP
+AM=M-1
+D=M
+A=A-1
+D=M-D
+M=0
+@END_EQ_source2_5
+D;JNE
+@SP
+A=M-1
+M=-1
+(END_EQ_source2_5)
+
+"""
