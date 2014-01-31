@@ -41,6 +41,17 @@ describe Translator::Commands::Pop do
     expect_assembly %w(@SP AM=M-1 D=M @4 M=D), c
   end
 
+  it 'should write the correct pop static' do
+    c = Translator::Commands::Pop.new('static', 8, 'filename')
+    expect_assembly %w(@SP AM=M-1 D=M @filename.8 M=D), c
+  end
+
+  it 'should raise a syntax error for static without filename' do
+    expect do
+      Translator::Commands::Pop.new('static', 8)
+    end.to raise_error ArgumentError, 'Must provide a filename argument for static pop.'
+  end
+
   it 'should raise a syntax error for an unknown segment' do
     expect do
       Translator::Commands::Pop.new('bad', 2)

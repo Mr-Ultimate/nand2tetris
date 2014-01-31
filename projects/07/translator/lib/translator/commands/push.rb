@@ -5,7 +5,7 @@ require 'translator/command/abstract'
 module Translator
   module Commands
     class Push < Command::Abstract
-      def initialize(segment, index)
+      def initialize(segment, index, filename = nil)
         @segment, @index = segment, index.to_i
         @lines =  case segment
                   when 'constant'
@@ -22,6 +22,9 @@ module Translator
                     ["@#{@index}"] + %w(D=A @5 A=A+D D=M @SP AM=M+1 A=A-1 M=D)
                   when 'pointer'
                     ["@#{@index + 3}"] + %w(D=M @SP AM=M+1 A=A-1 M=D)
+                  when 'static'
+                    fail ArgumentError, 'Must provide a filename argument for static push.' unless filename
+                    ["@#{filename}.#{@index}"] + %w(D=M @SP AM=M+1 A=A-1 M=D)
                   else
                     fail SyntaxError, "VM Syntax Error: \"#{segment}\" is an unknown segment."
         end

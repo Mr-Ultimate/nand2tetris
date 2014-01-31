@@ -5,7 +5,7 @@ require 'translator/command/abstract'
 module Translator
   module Commands
     class Pop < Command::Abstract
-      def initialize(segment, index)
+      def initialize(segment, index, filename = nil)
         @segment, @index = segment, index.to_i
         @lines =  case segment
                   when 'local'
@@ -20,6 +20,9 @@ module Translator
                     ["@#{@index}"] + %w(D=A @5 D=A+D @R15 M=D @SP AM=M-1 D=M @R15 A=M M=D)
                   when 'pointer'
                     %w(@SP AM=M-1 D=M) + ["@#{@index + 3}"] + %w(M=D)
+                  when 'static'
+                    fail ArgumentError, 'Must provide a filename argument for static pop.' unless filename
+                    %w(@SP AM=M-1 D=M) + ["@#{filename}.#{@index}"] + %w(M=D)
                   else
                     fail SyntaxError, "VM Syntax Error: \"#{segment}\" is an unknown segment."
         end

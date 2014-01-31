@@ -46,6 +46,17 @@ describe Translator::Commands::Push do
     expect_assembly %w(@4 D=M @SP AM=M+1 A=A-1 M=D), c
   end
 
+  it 'should write the push static instruction' do
+    c = Translator::Commands::Push.new('static', 8, 'filename')
+    expect_assembly %w(@filename.8 D=M @SP AM=M+1 A=A-1 M=D), c
+  end
+
+  it 'should raise a syntax error for static without filename' do
+    expect do
+      Translator::Commands::Push.new('static', 8)
+    end.to raise_error ArgumentError, 'Must provide a filename argument for static push.'
+  end
+
   it 'should raise a syntax error for an unknown segment' do
     expect do
       Translator::Commands::Push.new('bad', 2)
